@@ -1,0 +1,85 @@
+name: Quality and compatibility
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3']
+        wordpress: ['6.8', '7.1']
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MYSQL_ROOT_PASSWORD: bpi_test_local
+        ports:
+          - 33307:3306
+        options: --health-cmd="mysqladmin ping -pbpi_test_local" --health-interval=5s --health-timeout=3s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, curl, mbstring, zip, intl
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Download isolated runtime and QA tooling
+        env:
+          BPI_WP_VERSION: ${{ matrix.wordpress }}
+        run: |
+          php tools/download-wordpress.php
+          php tools/download-runtime.php
+          php tools/download-checks.php
+          php tools/configure-checks.php
+          php tools/check-style.php
+          ln -s "$GITHUB_WORKSPACE" .runtime/wordpress/wp-content/plugins/wordpress-buddypress-plugin
+          php tools/install-runtime.php
+          php tools/activate-runtime.php
+      - name: Syntax, standards and static analysis
+        run: |
+          php tools/lint.php
+          php .runtime/phpcs.phar
+          php .runtime/phpstan.phar analyse --memory-limit=2G --no-progress
+      - name: PHP and Multisite integration
+        run: |
+          php .runtime/phpunit.phar --log-junit .runtime/phpunit-results.xml
+          php tools/network-setup.php --install
+          php tools/network-verify.php
+          php tools/component-verify.php activity
+          php tools/component-verify.php groups
+          php tools/component-verify.php friends
+          php tools/component-verify.php notifications
+          php tools/message-verify.php
+      - name: JavaScript and CSS
+        run: |
+          npm ci
+          npm test
+          npm run lint
+      - name: Browser and accessibility
+        run: |
+          npx playwright install --with-deps chromium
+          php -S 127.0.0.1:8917 -t .runtime/wordpress >.runtime/http.log 2>&1 &
+          npm run test:e2e
+      - name: Package
+        run: |
+          php tools/make-pot.php
+          php tools/package.php
+          php tools/release-setup.php
+          php tools/release-verify.php
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-php${{ matrix.php }}-wp${{ matrix.wordpress }}
+          path: |
+            .runtime/phpunit-results.xml
+            .runtime/e2e-results.json
+            .runtime/playwright-results
+            dist

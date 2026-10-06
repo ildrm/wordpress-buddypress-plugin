@@ -1,0 +1,1 @@
+{ "extends": "stylelint-config-standard", "rules": { "selector-class-pattern": "^bpi-[a-z0-9-]+$" } }

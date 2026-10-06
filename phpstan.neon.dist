@@ -1,0 +1,18 @@
+parameters:
+    level: 5
+    phpVersion: 80100
+    paths:
+        - src
+        - buddypress-intelligence.php
+        - uninstall.php
+    scanFiles:
+        - .runtime/wordpress-stubs.php
+        - tests/static/buddypress.php
+    bootstrapFiles:
+        - tests/static/constants.php
+    stubFiles:
+        - tests/static/block.stub
+    tmpDir: .phpstan-cache
+    treatPhpDocTypesAsCertain: false
+    parallel:
+        maximumNumberOfProcesses: 1

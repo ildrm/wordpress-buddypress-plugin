@@ -1,0 +1,44 @@
+<?php
+require __DIR__ . '/network-bootstrap.php';
+use BuddyPressIntelligence\{Core,Database,Settings,NativeObjects,Policy,Jobs,Events,Graph};
+function networkCheck(bool $condition, string $message): void {
+    if (!$condition) throw new RuntimeException($message);
+    echo "PASS: $message\n";
+}
+networkCheck(is_multisite(), 'real WordPress Multisite runtime');
+networkCheck(function_exists('buddypress'), 'BuddyPress loaded on network root');
+bp_version_updater();
+Core::activate();
+wp_set_current_user(1);
+$child = get_sites(['path'=>'/child/', 'number'=>1]);
+$child_id = $child ? (int)$child[0]->blog_id : wpmu_create_blog('127.0.0.1', '/child/', 'Test child', 1);
+networkCheck(!is_wp_error($child_id) && $child_id>1, 'child site provisioned');
+$root_db = new Database();
+$root_table = $root_db->table('edges');
+Core::option('bpi_test_network', 'shared', true);
+switch_to_blog($child_id);
+networkCheck((new Database())->table('edges') === $root_table, 'one BuddyPress-root graph table across sites');
+networkCheck(Core::option('bpi_test_network') === 'shared', 'settings read from root without child copies');
+networkCheck(get_current_blog_id() === $child_id, 'option reads restore caller blog');
+Core::transient('bpi_network_cache_test',['scope'=>'root']);
+networkCheck(get_current_blog_id() === $child_id, 'cache writes restore caller blog');
+restore_current_blog();
+networkCheck(Core::transient('bpi_network_cache_test') === ['scope'=>'root'], 'child and root share one cache namespace');
+delete_transient('bpi_network_cache_test');
+switch_to_blog($child_id);
+$child_admin = get_user_by('login','network_child_admin');
+$child_user = $child_admin ? (int)$child_admin->ID : wp_insert_user(['user_login'=>'network_child_admin','user_pass'=>'disabled-test-password','user_email'=>'child@example.invalid','role'=>'subscriber']);
+add_user_to_blog($child_id,$child_user,'administrator');
+wp_set_current_user($child_user);
+networkCheck(current_user_can('manage_options'), 'child administrator has local administrative access');
+networkCheck(!bp_current_user_can('bpi_manage_settings'), 'child administrator cannot manage root community settings');
+networkCheck(!bp_user_can($child_user,'bp_moderate'), 'child administrator cannot bypass root group privacy');
+wp_set_current_user(1);
+Core::schedule('bpi_test_network_job');
+networkCheck(get_current_blog_id() === $child_id, 'scheduling restores caller blog');
+networkCheck(!wp_next_scheduled('bpi_test_network_job'), 'no duplicate cron on child');
+restore_current_blog();
+networkCheck((bool)wp_next_scheduled('bpi_test_network_job'), 'cron scheduled only on root');
+wp_clear_scheduled_hook('bpi_test_network_job');
+delete_option('bpi_test_network');
+echo "Network verification complete.\n";

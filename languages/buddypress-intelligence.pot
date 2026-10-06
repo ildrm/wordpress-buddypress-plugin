@@ -1,0 +1,985 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Intelligence 1.0.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: buddypress-intelligence\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Moderation.php:121
+msgid "A community moderator has issued a warning. Review the community guidelines or submit an appeal from Reports and appeals."
+msgstr ""
+
+#: src/UI.php:723
+msgid "Accept this answer"
+msgstr ""
+
+#: src/UI.php:711
+msgid "Accepted answer"
+msgstr ""
+
+#: src/UI.php:906
+msgid "Action"
+msgstr ""
+
+#: src/UI.php:922
+msgid "Action options (JSON object; advanced)"
+msgstr ""
+
+#: src/UI.php:1130
+msgid "Actioned"
+msgstr ""
+
+#: src/UI.php:861
+msgid "Active"
+msgstr ""
+
+#: src/UI.php:573
+msgid "Activity"
+msgstr ""
+
+#: src/UI.php:1117
+msgid "Add internal note"
+msgstr ""
+
+#: src/UI.php:1008
+msgid "Administration pages"
+msgstr ""
+
+#: src/UI.php:852
+msgid "Aliases (JSON list)"
+msgstr ""
+
+#: src/UI.php:1061
+msgid "Allow data transfers to the configured AI provider"
+msgstr ""
+
+#: src/UI.php:1062
+msgid "Allow moderation appeals"
+msgstr ""
+
+#: src/UI.php:372
+msgid "Allow my activity to contribute to anonymous community analytics"
+msgstr ""
+
+#: src/UI.php:395
+msgid "Allow optional AI requests involving public editorial content"
+msgstr ""
+
+#: src/UI.php:783 src/UI.php:1036
+msgid "Analytics"
+msgstr ""
+
+#: src/Privacy.php:139
+msgid "Anonymized community contribution"
+msgstr ""
+
+#: src/UI.php:711
+msgid "Answer"
+msgstr ""
+
+#: src/UI.php:730
+msgid "Answer pages"
+msgstr ""
+
+#: src/UI.php:1167
+msgid "Appeal decision"
+msgstr ""
+
+#: src/UI.php:1157
+msgid "Apply action"
+msgstr ""
+
+#: src/UI.php:862
+msgid "Archived"
+msgstr ""
+
+#: src/UI.php:692
+msgid "Ask a question"
+msgstr ""
+
+#: src/UI.php:1152
+msgid "Assigned moderator member number (0 to unassign)"
+msgstr ""
+
+#: src/UI.php:581
+msgid "Author member number (optional)"
+msgstr ""
+
+#: src/UI.php:884
+msgid "Automation unavailable."
+msgstr ""
+
+#: src/UI.php:782 src/UI.php:1035
+msgid "Automations"
+msgstr ""
+
+#: src/UI.php:442
+msgid "Block member"
+msgstr ""
+
+#: src/Privacy.php:15 src/Privacy.php:25
+msgid "BuddyPress Intelligence"
+msgstr ""
+
+#: src/Core.php:107
+msgid "BuddyPress Intelligence requires BuddyPress 14.5.2 or later."
+msgstr ""
+
+#: buddypress-intelligence.php:37
+msgid "BuddyPress Intelligence requires BuddyPress. Its community features are currently unavailable."
+msgstr ""
+
+#: src/Core.php:55
+msgid "BuddyPress Intelligence requires WordPress 6.8 and PHP 8.1 or later."
+msgstr ""
+
+#: src/UI.php:369
+msgid "BuddyPress group restrictions still apply. Selected interests are optional."
+msgstr ""
+
+#: src/UI.php:295
+msgid "Case number"
+msgstr ""
+
+#: src/UI.php:1124
+msgid "Change workflow status"
+msgstr ""
+
+#: src/UI.php:399
+msgid "Choose only what you want to share. You can skip onboarding and still use community tools."
+msgstr ""
+
+#: src/UI.php:689
+msgid "Community"
+msgstr ""
+
+#: src/UI.php:40
+msgid "Community Intelligence"
+msgstr ""
+
+#: src/Knowledge.php:306
+msgid "Community accepted answers; not a professional qualification."
+msgstr ""
+
+#: src/Privacy.php:77
+msgid "Community data"
+msgstr ""
+
+#: src/UI.php:358
+msgid "Community discovery visibility"
+msgstr ""
+
+#: src/Privacy.php:94
+msgid "Community preferences"
+msgstr ""
+
+#: src/UI.php:276
+msgid "Community sections"
+msgstr ""
+
+#: src/Integration.php:64 src/UI.php:248
+msgid "Community tools"
+msgstr ""
+
+#: src/Privacy.php:37
+msgid "Community tools store follows, blocks, interests, feedback, questions, answers, reputation and moderation records. Behavioral analytics require site and member consent. Events are retained for the configured period (90 days by default); aggregate metrics for 365 days. Private messages are excluded. Optional AI requires site and member consent and sends only limited public editorial text to the configured provider. Community discussions are anonymized during erasure; moderation subjects and notes are anonymized. Export and erasure are available through WordPress privacy tools."
+msgstr ""
+
+#: src/UI.php:917
+msgid "Conditions (JSON object; advanced)"
+msgstr ""
+
+#: assets/community.js:82
+msgid "Connection failed. Your form is still here; check your connection and try again."
+msgstr ""
+
+#: src/Analytics.php:65
+msgid "Counts involving fewer than five members are withheld. Nonconsenting members are excluded."
+msgstr ""
+
+#: src/UI.php:937
+msgid "Create automation"
+msgstr ""
+
+#: src/UI.php:991
+msgid "Create draft experiment"
+msgstr ""
+
+#: src/UI.php:866
+msgid "Create topic"
+msgstr ""
+
+#: src/UI.php:581
+msgid "Created after (UTC)"
+msgstr ""
+
+#: src/UI.php:581
+msgid "Created before (UTC)"
+msgstr ""
+
+#: src/UI.php:1175
+msgid "Decision shared with the member"
+msgstr ""
+
+#: src/UI.php:842
+msgid "Description"
+msgstr ""
+
+#: src/UI.php:786
+msgid "Diagnostics"
+msgstr ""
+
+#: src/UI.php:555
+msgid "Discover"
+msgstr ""
+
+#: src/Privacy.php:178
+msgid "Discussion structure and anonymized moderation case history are retained to preserve community integrity. Anonymous aggregate statistics contain no member identifiers."
+msgstr ""
+
+#: src/UI.php:1123
+msgid "Dismiss report"
+msgstr ""
+
+#: src/Analytics.php:153
+msgid "Distinct consenting assigned members with a metric event divided by assigned members observed after assignment. Small populations are withheld; this is descriptive, not a significance test."
+msgstr ""
+
+#: src/Analytics.php:62
+msgid "Distinct consenting authenticated members generating a qualifying event in one UTC day."
+msgstr ""
+
+#: src/Analytics.php:63
+msgid "Distinct consenting authenticated members generating a qualifying event in the trailing seven UTC days."
+msgstr ""
+
+#: src/Analytics.php:64
+msgid "Distinct consenting authenticated members generating a qualifying event in the trailing thirty UTC days."
+msgstr ""
+
+#: src/UI.php:879
+msgid "Edit automation"
+msgstr ""
+
+#: src/UI.php:824
+msgid "Edit topic"
+msgstr ""
+
+#: src/UI.php:1060
+msgid "Enable consent-based analytics collection"
+msgstr ""
+
+#: src/UI.php:927
+msgid "Enabled"
+msgstr ""
+
+#: src/UI.php:987
+msgid "End (UTC)"
+msgstr ""
+
+#: src/UI.php:965
+msgid "End experiment"
+msgstr ""
+
+#: src/UI.php:362
+msgid "Everyone"
+msgstr ""
+
+#: src/UI.php:570
+msgid "Everything"
+msgstr ""
+
+#: src/UI.php:976
+msgid "Experiment name"
+msgstr ""
+
+#: src/UI.php:784 src/UI.php:1037
+msgid "Experiments"
+msgstr ""
+
+#: src/UI.php:1032
+msgid "Expertise and reputation"
+msgstr ""
+
+#: src/UI.php:263 assets/editor.js:14
+msgid "Experts"
+msgstr ""
+
+#: src/UI.php:664
+msgid "Explore more results"
+msgstr ""
+
+#: src/UI.php:912
+msgid "Feature activity"
+msgstr ""
+
+#: src/UI.php:259
+msgid "Feed"
+msgstr ""
+
+#: src/UI.php:550
+msgid "Feed order"
+msgstr ""
+
+#: src/UI.php:465
+msgid "Feedback and reporting"
+msgstr ""
+
+#: src/UI.php:435
+msgid "Follow"
+msgstr ""
+
+#: src/UI.php:553
+msgid "Following"
+msgstr ""
+
+#: src/UI.php:1027
+msgid "Following and blocking"
+msgstr ""
+
+#: src/UI.php:268
+msgid "Following, muted and blocked"
+msgstr ""
+
+#: src/UI.php:554
+msgid "For you"
+msgstr ""
+
+#: src/UI.php:364
+msgid "Friends"
+msgstr ""
+
+#: src/Discovery.php:376
+msgid "From people or groups you follow."
+msgstr ""
+
+#: src/UI.php:353
+msgid "Goals (optional)"
+msgstr ""
+
+#: src/UI.php:687
+msgid "Group (optional; membership required)"
+msgstr ""
+
+#: src/UI.php:261 src/UI.php:572
+msgid "Groups"
+msgstr ""
+
+#: src/UI.php:380
+msgid "Groups allowed to see my community content"
+msgstr ""
+
+#: src/UI.php:379
+msgid "Groups of interest"
+msgstr ""
+
+#: src/UI.php:713
+msgid "Helpful"
+msgstr ""
+
+#: src/UI.php:1119
+msgid "Hide from community surfaces"
+msgstr ""
+
+#: src/UI.php:341
+msgid "Interests"
+msgstr ""
+
+#: src/UI.php:267
+msgid "Interests and privacy"
+msgstr ""
+
+#: src/UI.php:1133
+msgid "Internal note (visible to moderators only)"
+msgstr ""
+
+#: assets/community.js:55
+msgid "Invalid action."
+msgstr ""
+
+#: assets/community.js:20
+msgid "Invalid form configuration."
+msgstr ""
+
+#: src/UI.php:1049
+msgid "Keep aggregate analytics for this many days"
+msgstr ""
+
+#: src/UI.php:1048
+msgid "Keep events for this many days"
+msgstr ""
+
+#: src/UI.php:265 src/UI.php:575 assets/editor.js:15
+msgid "Knowledge"
+msgstr ""
+
+#: src/UI.php:768
+msgid "Knowledge title"
+msgstr ""
+
+#: src/UI.php:552
+msgid "Latest"
+msgstr ""
+
+#: src/Discovery.php:379
+msgid "Matches your search."
+msgstr ""
+
+#: src/Discovery.php:375
+msgid "Matches your selected interests."
+msgstr ""
+
+#: src/UI.php:1050
+msgid "Maximum candidates per request"
+msgstr ""
+
+#: src/UI.php:438
+msgid "Member preferences"
+msgstr ""
+
+#: src/UI.php:390
+msgid "Member types allowed to see my community content (JSON list)"
+msgstr ""
+
+#: src/UI.php:376
+msgid "Members of selected groups"
+msgstr ""
+
+#: src/UI.php:781
+msgid "Moderation"
+msgstr ""
+
+#: src/UI.php:1114
+msgid "Moderation action"
+msgstr ""
+
+#: src/UI.php:1034
+msgid "Moderation tools"
+msgstr ""
+
+#: src/UI.php:440
+msgid "Mute"
+msgstr ""
+
+#: src/UI.php:365
+msgid "My followers"
+msgstr ""
+
+#: src/UI.php:1128
+msgid "New workflow status"
+msgstr ""
+
+#: src/UI.php:654 src/UI.php:1013
+msgid "Next"
+msgstr ""
+
+#: src/UI.php:735
+msgid "Next answers"
+msgstr ""
+
+#: src/UI.php:1130
+msgid "No action"
+msgstr ""
+
+#: src/UI.php:613
+msgid "No matching items yet. Try other interests or a broader search."
+msgstr ""
+
+#: src/UI.php:1190
+msgid "No records yet."
+msgstr ""
+
+#: src/UI.php:470
+msgid "Not interested"
+msgstr ""
+
+#: src/UI.php:910
+msgid "Notify member"
+msgstr ""
+
+#: src/UI.php:367
+msgid "Only me"
+msgstr ""
+
+#: src/UI.php:1074
+msgid "Only up to 4,000 characters of public editorial text are sent. Store credentials in BPI_PROVIDER_TOKEN in wp-config.php. Member and site consent are both required."
+msgstr ""
+
+#: src/UI.php:1130
+msgid "Open"
+msgstr ""
+
+#: src/UI.php:1038
+msgid "Optional AI"
+msgstr ""
+
+#: src/UI.php:779
+msgid "Overview"
+msgstr ""
+
+#: src/UI.php:847
+msgid "Parent topic number (0 for none)"
+msgstr ""
+
+#: src/UI.php:571
+msgid "People"
+msgstr ""
+
+#: src/UI.php:366
+msgid "People I follow"
+msgstr ""
+
+#: src/UI.php:260 assets/editor.js:10
+msgid "People to meet"
+msgstr ""
+
+#: src/Analytics.php:90
+msgid "Percentage of consenting members active 7–14 days ago who generated a qualifying event in the last seven days. Both populations must reach five."
+msgstr ""
+
+#: src/Analytics.php:82
+msgid "Percentage of qualifying creations from the most active consenting contributor in the last 30 days; at most the 1,000 most active contributors."
+msgstr ""
+
+#: src/Analytics.php:86
+msgid "Percentage of questions created by consenting members in the last 30 days without a published answer. Withheld below five question authors."
+msgstr ""
+
+#: src/UI.php:1063
+msgid "Permanently delete plugin data on uninstall"
+msgstr ""
+
+#: assets/editor.js:9
+msgid "Personalized feed"
+msgstr ""
+
+#: src/UI.php:1029
+msgid "Personalized feeds"
+msgstr ""
+
+#: src/UI.php:1000
+msgid "Place [bpi_community] on a community page or use the Community tools member tab. Enable only the modules you need. Analytics and external providers require explicit consent."
+msgstr ""
+
+#: src/UI.php:156 src/UI.php:169
+msgid "Please check the form values."
+msgstr ""
+
+#: src/REST.php:160
+msgid "Please wait before trying again."
+msgstr ""
+
+#: src/UI.php:1051
+msgid "Points per accepted topic answer"
+msgstr ""
+
+#: src/UI.php:757
+msgid "Post answer"
+msgstr ""
+
+#: src/UI.php:576
+msgid "Posts"
+msgstr ""
+
+#: src/Privacy.php:98
+msgid "Preferences"
+msgstr ""
+
+#: src/UI.php:644 src/UI.php:1010
+msgid "Previous"
+msgstr ""
+
+#: src/UI.php:732
+msgid "Previous answers"
+msgstr ""
+
+#: src/UI.php:1142
+msgid "Priority (1–5)"
+msgstr ""
+
+#: src/UI.php:1072
+msgid "Public HTTPS AI provider endpoint"
+msgstr ""
+
+#: src/UI.php:772
+msgid "Publish reviewed knowledge"
+msgstr ""
+
+#: src/UI.php:678
+msgid "Question details"
+msgstr ""
+
+#: src/UI.php:676
+msgid "Question title"
+msgstr ""
+
+#: src/UI.php:264 src/UI.php:574 assets/editor.js:13
+msgid "Questions"
+msgstr ""
+
+#: src/UI.php:1033
+msgid "Questions and knowledge"
+msgstr ""
+
+#: src/UI.php:581
+msgid "Questions without a visible answer"
+msgstr ""
+
+#: src/UI.php:911
+msgid "Queue moderation review"
+msgstr ""
+
+#: src/UI.php:1077
+msgid "Ranking weights (advanced JSON)"
+msgstr ""
+
+#: src/UI.php:299
+msgid "Reason for appeal"
+msgstr ""
+
+#: src/Discovery.php:377
+msgid "Recent in your community."
+msgstr ""
+
+#: src/Discovery.php:378
+msgid "Recent participation from different members."
+msgstr ""
+
+#: src/UI.php:1030
+msgid "Recommendations"
+msgstr ""
+
+#: assets/editor.js:11
+msgid "Recommended groups"
+msgstr ""
+
+#: src/Privacy.php:81
+msgid "Record"
+msgstr ""
+
+#: src/UI.php:1179
+msgid "Record appeal decision"
+msgstr ""
+
+#: src/UI.php:1118
+msgid "Record warning"
+msgstr ""
+
+#: src/UI.php:1171
+msgid "Reject appeal"
+msgstr ""
+
+#: src/UI.php:739
+msgid "Related questions"
+msgstr ""
+
+#: src/UI.php:530
+msgid "Remove preference"
+msgstr ""
+
+#: src/UI.php:1122
+msgid "Remove restriction"
+msgstr ""
+
+#: src/UI.php:497
+msgid "Report category"
+msgstr ""
+
+#: src/UI.php:270
+msgid "Reports and appeals"
+msgstr ""
+
+#: src/UI.php:269
+msgid "Reputation"
+msgstr ""
+
+#: assets/editor.js:16
+msgid "Reputation summary"
+msgstr ""
+
+#: src/UI.php:1130
+msgid "Resolved"
+msgstr ""
+
+#: src/UI.php:1120
+msgid "Restore visibility"
+msgstr ""
+
+#: src/UI.php:1121
+msgid "Restrict community interactions"
+msgstr ""
+
+#: src/UI.php:1137
+msgid "Restriction duration in days"
+msgstr ""
+
+#: src/UI.php:635
+msgid "Result pages"
+msgstr ""
+
+#: src/UI.php:1003
+msgid "Retry failed job"
+msgstr ""
+
+#: src/UI.php:746
+msgid "Reverse acceptance and its reputation credit"
+msgstr ""
+
+#: src/UI.php:1095
+msgid "Review case"
+msgstr ""
+
+#: src/UI.php:896
+msgid "Rule name"
+msgstr ""
+
+#: src/UI.php:937
+msgid "Save automation"
+msgstr ""
+
+#: src/UI.php:913
+msgid "Save internal state"
+msgstr ""
+
+#: src/UI.php:411
+msgid "Save preferences"
+msgstr ""
+
+#: src/UI.php:1086
+msgid "Save settings"
+msgstr ""
+
+#: src/UI.php:866
+msgid "Save topic"
+msgstr ""
+
+#: assets/community.js:69
+msgid "Saved. Refreshing your community view…"
+msgstr ""
+
+#: assets/community.js:52
+msgid "Saving…"
+msgstr ""
+
+#: src/UI.php:266 src/UI.php:581
+msgid "Search"
+msgstr ""
+
+#: src/UI.php:568
+msgid "Search type"
+msgstr ""
+
+#: src/UI.php:567
+msgid "Search your community"
+msgstr ""
+
+#: src/UI.php:377
+msgid "Selected member types"
+msgstr ""
+
+#: src/UI.php:785
+msgid "Settings and privacy"
+msgstr ""
+
+#: src/UI.php:1147
+msgid "Severity (1–5)"
+msgstr ""
+
+#: src/UI.php:469
+msgid "Show less like this"
+msgstr ""
+
+#: src/UI.php:468
+msgid "Show more like this"
+msgstr ""
+
+#: src/REST.php:93 src/UI.php:250
+msgid "Sign in to use community tools."
+msgstr ""
+
+#: src/UI.php:363
+msgid "Signed-in members"
+msgstr ""
+
+#: src/UI.php:342
+msgid "Skills you declare"
+msgstr ""
+
+#: src/UI.php:441
+msgid "Snooze for 7 days"
+msgstr ""
+
+#: src/REST.php:170
+msgid "Some values are invalid. Check your selection and try again."
+msgstr ""
+
+#: src/UI.php:983
+msgid "Start (UTC)"
+msgstr ""
+
+#: src/UI.php:965
+msgid "Start experiment"
+msgstr ""
+
+#: src/UI.php:303
+msgid "Submit appeal"
+msgstr ""
+
+#: src/UI.php:506
+msgid "Submit report"
+msgstr ""
+
+#: src/UI.php:1082
+msgid "Supported public post types (JSON list)"
+msgstr ""
+
+#: src/UI.php:932
+msgid "Test without performing actions"
+msgstr ""
+
+#: src/UI.php:240
+msgid "The action could not be completed. Check your permissions and form values, then try again."
+msgstr ""
+
+#: src/REST.php:173
+msgid "The action could not be completed. Please try again."
+msgstr ""
+
+#: assets/community.js:68
+msgid "The action failed. Try again."
+msgstr ""
+
+#: src/Core.php:79
+msgid "The community database could not be initialized. Check database permissions and try activation again."
+msgstr ""
+
+#: src/REST.php:138
+msgid "This action does not support that request method."
+msgstr ""
+
+#: src/REST.php:115
+msgid "This community feature is currently unavailable."
+msgstr ""
+
+#: src/Integration.php:53
+msgid "This community interaction is unavailable."
+msgstr ""
+
+#: src/Integration.php:22 src/Integration.php:193
+msgid "This community item is unavailable."
+msgstr ""
+
+#: src/UI.php:613
+msgid "This feature requires an enabled BuddyPress component."
+msgstr ""
+
+#: src/REST.php:168
+msgid "This item is unavailable or you do not have permission."
+msgstr ""
+
+#: src/UI.php:838
+msgid "Topic name"
+msgstr ""
+
+#: src/UI.php:581
+msgid "Topic number (optional)"
+msgstr ""
+
+#: src/UI.php:857
+msgid "Topic status"
+msgstr ""
+
+#: src/UI.php:829
+msgid "Topic unavailable."
+msgstr ""
+
+#: src/UI.php:262 src/UI.php:577 src/UI.php:682 src/UI.php:780 assets/editor.js:12
+msgid "Topics"
+msgstr ""
+
+#: src/UI.php:1028
+msgid "Topics and interests"
+msgstr ""
+
+#: src/UI.php:343
+msgid "Topics you can help with"
+msgstr ""
+
+#: src/UI.php:556
+msgid "Trending"
+msgstr ""
+
+#: src/UI.php:1130
+msgid "Triaged"
+msgstr ""
+
+#: src/UI.php:1130
+msgid "Under review"
+msgstr ""
+
+#: src/UI.php:435
+msgid "Unfollow"
+msgstr ""
+
+#: src/UI.php:1031
+msgid "Unified search"
+msgstr ""
+
+#: src/UI.php:1170
+msgid "Uphold appeal"
+msgstr ""
+
+#: src/UI.php:978
+msgid "Variant names (JSON list)"
+msgstr ""
+
+#: src/Topics.php:184
+msgid "Viewer-visible sample of the latest 100 topic mappings. Velocity is mappings in the last seven days minus the previous seven days; it is not a global population count."
+msgstr ""
+
+#: src/UI.php:502
+msgid "What happened?"
+msgstr ""
+
+#: src/UI.php:900
+msgid "When this happens"
+msgstr ""
+
+#: src/UI.php:1197
+msgid "Withheld"
+msgstr ""
+
+#: src/REST.php:109
+msgid "You do not have permission for this action."
+msgstr ""
+
+#: src/UI.php:806
+msgid "You do not have permission to manage this community feature."
+msgstr ""
+
+#: src/Integration.php:232
+msgid "You have a community update."
+msgstr ""
+
+#: src/UI.php:518
+msgid "You have no saved relationships yet."
+msgstr ""
+
+#: src/UI.php:753
+msgid "Your answer"
+msgstr ""
+
+#: src/UI.php:240
+msgid "Your changes were saved."
+msgstr ""
+
+#: src/Automation.php:202
+msgid "Your community preferences have been updated."
+msgstr ""
+
+#: src/UI.php:154
+msgid "Your session expired. Sign in and try again."
+msgstr ""
+

@@ -1,0 +1,18 @@
+{
+  "name": "buddypress-intelligence",
+  "version": "1.0.0",
+  "private": true,
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "test": "node --test tests/JS/*.test.cjs",
+    "lint": "eslint assets tests/E2E playwright.config.cjs && stylelint assets/*.css",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@axe-core/playwright": "4.11.0",
+    "eslint": "10.12.0",
+    "stylelint": "16.26.1",
+    "stylelint-config-standard": "39.0.1"
+  }
+}

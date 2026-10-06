@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="BuddyPress Intelligence">
+  <description>WordPress security, internationalization and coding standards.</description>
+  <file>src</file><file>buddypress-intelligence.php</file><file>uninstall.php</file>
+  <arg name="extensions" value="php"/><arg value="sp"/>
+  <config name="minimum_supported_wp_version" value="6.8"/>
+  <rule ref="WordPress-Core"/>
+  <rule ref="WordPress-Extra"/>
+  <rule ref="WordPress.WP.I18n"><properties><property name="text_domain" type="array"><element value="buddypress-intelligence"/></property></properties></rule>
+  <!-- Internal services use PSR-4 class names, camelCase methods and typed contracts. -->
+  <rule ref="WordPress.NamingConventions.ValidFunctionName"><exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/></rule>
+  <rule ref="WordPress.Files.FileName"><exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/><exclude name="WordPress.Files.FileName.InvalidClassFileName"/></rule>
+  <rule ref="Universal.Operators.DisallowShortTernary"><exclude name="Universal.Operators.DisallowShortTernary.Found"/></rule>
+  <rule ref="WordPress.WP.Capabilities"><properties><property name="custom_capabilities" type="array">
+    <element value="bp_moderate"/><element value="bpi_manage_settings"/><element value="bpi_manage_feed"/><element value="bpi_manage_topics"/><element value="bpi_manage_reputation"/><element value="bpi_moderate"/><element value="bpi_view_cases"/><element value="bpi_manage_automations"/><element value="bpi_view_analytics"/><element value="bpi_manage_ai"/>
+  </property></properties></rule>
+</ruleset>

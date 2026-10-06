@@ -1,0 +1,10 @@
+<?php
+class WP_Block_Type {}
+/**
+ * Upstream WordPress register_block_type accepts an integer api_version.
+ * Corrects the external stub's string annotation; retains the supported shapes.
+ * @param string|WP_Block_Type $block_type
+ * @param array{api_version?: int, editor_script?: string, render_callback?: callable} $args
+ * @return WP_Block_Type|false
+ */
+function register_block_type( $block_type, $args = array() ) {}

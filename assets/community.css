@@ -1,0 +1,197 @@
+.bpi-community {
+  --bpi-surface: #fff;
+  --bpi-text: #17242b;
+  --bpi-border: #657782;
+  --bpi-accent: #07507a;
+
+  color: var(--bpi-text);
+  background: var(--bpi-surface);
+  color-scheme: light;
+  max-inline-size: 100%;
+  line-height: 1.6;
+}
+
+.bpi-community *, .bpi-community *::before, .bpi-community *::after {
+  box-sizing: border-box;
+}
+
+.bpi-community a {
+  color: var(--bpi-accent);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.bpi-community :focus-visible {
+  outline: 3px solid var(--bpi-accent);
+  outline-offset: 4px;
+}
+
+.bpi-nav, .bpi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-block: 1rem;
+}
+
+.bpi-nav a {
+  padding: .5rem .75rem;
+  border: 1px solid var(--bpi-border);
+  border-radius: .4rem;
+  min-block-size: 44px;
+  background: var(--bpi-surface);
+}
+
+.bpi-nav a[aria-current="page"] {
+  background: var(--bpi-accent);
+  color: #fff;
+}
+
+.bpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+
+.bpi-card {
+  padding: 1rem;
+  border: 1px solid var(--bpi-border);
+  border-radius: .5rem;
+  background: var(--bpi-surface);
+  overflow-wrap: anywhere;
+  min-inline-size: 0;
+}
+
+.bpi-card h3 {
+  margin-block: 0 .75rem;
+}
+
+.bpi-form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-block: .75rem;
+  max-inline-size: 48rem;
+}
+
+.bpi-field {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.bpi-field label {
+  font-weight: 600;
+}
+
+.bpi-search input:not([type="checkbox"]), .bpi-search select, .bpi-field textarea, .bpi-field select, .bpi-field input:not([type="checkbox"]) {
+  max-inline-size: 100%;
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: .65rem;
+  border: 1px solid var(--bpi-border);
+  border-radius: .3rem;
+  color: var(--bpi-text);
+  background: var(--bpi-surface);
+  font: inherit;
+  min-block-size: 44px;
+}
+
+.bpi-field input[type="checkbox"], .bpi-search input[type="checkbox"] {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
+.bpi-button {
+  align-self: flex-start;
+  padding: .65rem 1rem;
+  border: 1px solid var(--bpi-accent);
+  border-radius: .4rem;
+  background: var(--bpi-accent);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  min-block-size: 44px;
+}
+
+.bpi-button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.bpi-help {
+  font-size: .9em;
+  margin-block: .35rem;
+}
+
+.bpi-alert {
+  padding: 1rem;
+  background: var(--bpi-surface);
+  border-inline-start: 4px solid var(--bpi-accent);
+}
+
+.bpi-form-status:empty {
+  display: none;
+}
+
+.bpi-community summary {
+  cursor: pointer;
+  min-block-size: 44px;
+  padding: .5rem;
+}
+
+.bpi-actions details {
+  inline-size: 100%;
+}
+
+.bpi-records {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+}
+
+.bpi-records dt {
+  font-weight: 600;
+}
+
+.bpi-records dd {
+  margin-inline: 0;
+  margin-block-end: .7rem;
+  white-space: pre-wrap;
+}
+
+.bpi-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: end;
+  margin-block: 1rem;
+}
+
+.bpi-search label {
+  flex: 1 1 18rem;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bpi-community {
+    --bpi-surface: #17242b;
+    --bpi-text: #f1f5f7;
+    --bpi-border: #98abb6;
+    --bpi-accent: #85cff6;
+
+    color-scheme: dark;
+  }
+
+  .bpi-community .bpi-button, .bpi-nav a[aria-current="page"] {
+    color: #17242b;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bpi-community *, .bpi-community *::before, .bpi-community *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

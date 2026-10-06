@@ -1,0 +1,18 @@
+{
+  "name": "buddypress-intelligence/buddypress-intelligence",
+  "description": "Privacy-aware discovery and community tools for BuddyPress",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": { "php": ">=8.1" },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5",
+    "squizlabs/php_codesniffer": "^3.13",
+    "wp-coding-standards/wpcs": "^3.2",
+    "phpstan/phpstan": "^2.1",
+    "php-stubs/wordpress-stubs": "^6.8",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.1"
+  },
+  "autoload": { "psr-4": { "BuddyPressIntelligence\\": "src/" } },
+  "config": { "allow-plugins": { "dealerdirect/phpcodesniffer-composer-installer": true }, "sort-packages": true },
+  "scripts": { "test": "phpunit", "lint": "phpcs", "analyse": "phpstan analyse --memory-limit=2G" }
+}
