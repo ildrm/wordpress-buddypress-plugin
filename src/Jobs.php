@@ -44,8 +44,8 @@ final class Jobs {
 		try {
 			$table = $this->db->table( 'jobs' );
 			$now   = gmdate( 'Y-m-d H:i:s' );
-			$this->db->query( "UPDATE $table SET status='pending',locked_at=NULL WHERE status='running' AND locked_at<%s AND attempts<5 LIMIT 50", array( gmdate( 'Y-m-d H:i:s', time() - 600 ) ) );
-			$this->db->query( "UPDATE $table SET status='failed',error='lease_exhausted' WHERE status='running' AND locked_at<%s AND attempts>=5 LIMIT 50", array( gmdate( 'Y-m-d H:i:s', time() - 600 ) ) );
+			$this->db->retryAutocommit( fn() => $this->db->query( "UPDATE $table SET status='pending',locked_at=NULL WHERE status='running' AND locked_at<%s AND attempts<5 LIMIT 50", array( gmdate( 'Y-m-d H:i:s', time() - 600 ) ) ) );
+			$this->db->retryAutocommit( fn() => $this->db->query( "UPDATE $table SET status='failed',error='lease_exhausted' WHERE status='running' AND locked_at<%s AND attempts>=5 LIMIT 50", array( gmdate( 'Y-m-d H:i:s', time() - 600 ) ) ) );
 			$jobs     = $this->db->select( "SELECT * FROM $table WHERE status='pending' AND available_at<=%s ORDER BY available_at ASC,id ASC LIMIT 25", array( $now ) );
 			$count    = 0;
 			$deadline = microtime( true ) + 15;
@@ -53,7 +53,7 @@ final class Jobs {
 				if ( microtime( true ) > $deadline ) {
 					break;
 				}
-				if ( ! $this->db->query( "UPDATE $table SET status='running',locked_at=%s,attempts=attempts+1 WHERE id=%d AND status='pending' AND available_at<=%s AND attempts=%d", array( $now, $job['id'], $now, $job['attempts'] ) ) ) {
+				if ( ! $this->db->retryAutocommit( fn() => $this->db->query( "UPDATE $table SET status='running',locked_at=%s,attempts=attempts+1 WHERE id=%d AND status='pending' AND available_at<=%s AND attempts=%d", array( $now, $job['id'], $now, $job['attempts'] ) ) ) ) {
 					continue;
 				}
 				try {
@@ -61,7 +61,32 @@ final class Jobs {
 						throw new \RuntimeException( 'Unknown handler.' );
 					}
 					call_user_func( $this->handlers[ $job['kind'] ], json_decode( $job['payload'], true ) ?: array() );
-					$this->db->update(
+				} catch ( \Throwable $e ) {
+					$attempts = (int) $job['attempts'] + 1;
+					$this->db->retryAutocommit(
+						fn() => $this->db->update(
+							'jobs',
+							array(
+								'status'       => $attempts >= 5 ? 'failed' : 'pending',
+								'available_at' => gmdate( 'Y-m-d H:i:s', time() + min( 3600, 30 * 2 ** $attempts ) ),
+								'error'        => 'handler_failed',
+								'locked_at'    => null,
+							),
+							array(
+								'id'        => $job['id'],
+								'status'    => 'running',
+								'locked_at' => $now,
+								'attempts'  => $attempts,
+							)
+						)
+					);
+					do_action( 'bpi_job_failed', (int) $job['id'], $job['kind'], $attempts );
+					++$count;
+					continue;
+				}
+				// A completion deadlock must retry the state write, not execute a successful handler again.
+				$this->db->retryAutocommit(
+					fn() => $this->db->update(
 						'jobs',
 						array(
 							'status' => 'done',
@@ -73,26 +98,8 @@ final class Jobs {
 							'locked_at' => $now,
 							'attempts'  => (int) $job['attempts'] + 1,
 						)
-					);
-				} catch ( \Throwable $e ) {
-					$attempts = (int) $job['attempts'] + 1;
-					$this->db->update(
-						'jobs',
-						array(
-							'status'       => $attempts >= 5 ? 'failed' : 'pending',
-							'available_at' => gmdate( 'Y-m-d H:i:s', time() + min( 3600, 30 * 2 ** $attempts ) ),
-							'error'        => 'handler_failed',
-							'locked_at'    => null,
-						),
-						array(
-							'id'        => $job['id'],
-							'status'    => 'running',
-							'locked_at' => $now,
-							'attempts'  => $attempts,
-						)
-					);
-					do_action( 'bpi_job_failed', (int) $job['id'], $job['kind'], $attempts );
-				}
+					)
+				);
 				++$count;
 			}
 			if ( $this->db->one( 'jobs', array( 'status' => 'pending' ) ) && ! wp_next_scheduled( 'bpi_work' ) ) {

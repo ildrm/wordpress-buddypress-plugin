@@ -6,6 +6,7 @@ function networkCheck(bool $condition, string $message): void {
     echo "PASS: $message\n";
 }
 networkCheck(is_multisite(), 'real WordPress Multisite runtime');
+if (getenv('BPI_NETWORK_CONTENT')) networkCheck(wp_using_ext_object_cache() && method_exists($GLOBALS['wp_object_cache'],'redis_status') && $GLOBALS['wp_object_cache']->redis_status(), 'real Redis connected for network root/child checks');
 networkCheck(function_exists('buddypress'), 'BuddyPress loaded on network root');
 bp_version_updater();
 Core::activate();

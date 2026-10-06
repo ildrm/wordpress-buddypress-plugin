@@ -39,6 +39,9 @@ final class Integration {
 				100
 			);
 		}
+		if ( bp_is_active( 'friends' ) ) {
+			$this->friendships();
+		}
 		if ( bp_is_active( 'activity' ) ) {
 			add_action(
 				'bp_activity_before_save',
@@ -240,6 +243,130 @@ final class Integration {
 			7
 		);
 	}
+	/** Guard verified native HTTP writers; direct PHP writers use the policy contract. */
+	private function friendships(): void {
+		add_filter(
+			'rest_post_dispatch',
+			function ( $response, \WP_REST_Server $server, \WP_REST_Request $request ) {
+				if ( 'GET' !== $request->get_method() || ! preg_match( '#^/buddypress/v[12]/friends(?:/(\d+))?$#', $request->get_route(), $match ) || ! $response instanceof \WP_REST_Response || $response->get_status() >= 400 ) {
+					return $response;
+				}
+				$data = $response->get_data();
+				if ( ! is_array( $data ) ) {
+					return $response;
+				}
+				$visible = array_values(
+					array_filter(
+						$data,
+						fn( $friendship ) => is_array( $friendship ) && $this->policy->view( get_current_user_id(), 'member', (int) ( $friendship['initiator_id'] ?? 0 ) ) && $this->policy->view( get_current_user_id(), 'member', (int) ( $friendship['friend_id'] ?? 0 ) )
+					)
+				);
+				if ( ! empty( $match[1] ) && ! $visible ) {
+					return new \WP_REST_Response(
+						array(
+							'code'    => 'bpi_unavailable',
+							'message' => __( 'This community item is unavailable.', 'buddypress-intelligence' ),
+						),
+						404
+					);
+				}
+				if ( count( $visible ) !== count( $data ) ) {
+					$response = clone $response;
+					$response->set_data( $visible );
+					$response->header( 'X-WP-Total', (string) count( $visible ) );
+					$response->header( 'X-WP-TotalPages', $visible ? '1' : '0' );
+				}
+				$response->header( 'Cache-Control', 'private, no-store' );
+				return $response;
+			},
+			100,
+			3
+		);
+		add_filter(
+			'bp_rest_friends_create_item_permissions_check',
+			function ( $allowed, \WP_REST_Request $request ) {
+				if ( true !== $allowed ) {
+					return $allowed;
+				}
+				$actor  = (int) $request->get_param( 'initiator_id' );
+				$target = (int) $request->get_param( 'friend_id' );
+				return $this->friendshipAllowed( $actor, $target ) ? $allowed : $this->friendshipError();
+			},
+			100,
+			2
+		);
+		add_filter(
+			'bp_rest_friends_update_item_permissions_check',
+			function ( $allowed, \WP_REST_Request $request ) {
+				// BP's update endpoint receives the other member ID, not a friendship ID.
+				return true !== $allowed || $this->friendshipAllowed( get_current_user_id(), (int) $request->get_param( 'id' ) ) ? $allowed : $this->friendshipError();
+			},
+			100,
+			2
+		);
+		add_filter(
+			'bp_get_add_friend_button',
+			function ( array $button ): array {
+				if ( 'not_friends' === ( $button['id'] ?? '' ) && preg_match( '/^friend-(\d+)$/', $button['link_id'] ?? '', $match ) && ! $this->friendshipAllowed( get_current_user_id(), (int) $match[1] ) ) {
+					return array();
+				}
+				return $button;
+			}
+		);
+		foreach ( array( 'friends_add_friend', 'friends_accept_friendship', 'addremove_friend', 'accept_friendship' ) as $action ) {
+			add_action(
+				'wp_ajax_' . $action,
+				function () use ( $action ): void {
+					// No mutation occurs here. The native handler retains its nonce and ownership checks.
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Policy-only preflight; native handlers verify nonces.
+					$input  = wp_unslash( $_POST );
+					$target = absint( $input['item_id'] ?? $input['fid'] ?? $input['id'] ?? 0 );
+					$accept = in_array( $action, array( 'friends_accept_friendship', 'accept_friendship' ), true );
+					if ( $accept ) {
+						$target = $this->friendshipOther( $target );
+					} elseif ( 'addremove_friend' === $action && 'not_friends' !== friends_check_friendship_status( get_current_user_id(), $target ) ) {
+						return; // Native legacy handler can remove or withdraw an existing relationship.
+					}
+					if ( ! $this->friendshipAllowed( get_current_user_id(), $target ) ) {
+						wp_send_json_error( array( 'feedback' => esc_html__( 'This community interaction is unavailable.', 'buddypress-intelligence' ) ), 403 );
+					}
+				},
+				0
+			);
+		}
+		$screen = function (): void {
+			if ( ! bp_is_friends_component() ) {
+				return;
+			}
+			$target = 0;
+			if ( bp_is_current_action( 'add-friend' ) ) {
+				$target = absint( bp_action_variable( 0 ) );
+			} elseif ( bp_is_current_action( 'requests' ) && bp_is_action_variable( 'accept', 0 ) ) {
+				$target = $this->friendshipOther( absint( bp_action_variable( 1 ) ) );
+			} else {
+				return;
+			}
+			if ( ! $this->friendshipAllowed( get_current_user_id(), $target ) ) {
+				wp_die( esc_html__( 'This community interaction is unavailable.', 'buddypress-intelligence' ), '', array( 'response' => 403 ) );
+			}
+		};
+		add_action( 'bp_actions', $screen, 0 );
+		add_action( 'bp_screens', $screen, 0 );
+	}
+	private function friendshipOther( int $id ): int {
+		$friendship = new \BP_Friends_Friendship( $id, false, false );
+		$viewer     = get_current_user_id();
+		if ( ! $friendship->id || ! in_array( $viewer, array( (int) $friendship->initiator_user_id, (int) $friendship->friend_user_id ), true ) ) {
+			return 0;
+		}
+		return $viewer === (int) $friendship->initiator_user_id ? (int) $friendship->friend_user_id : (int) $friendship->initiator_user_id;
+	}
+	private function friendshipAllowed( int $actor, int $target ): bool {
+		return $actor > 0 && $target > 0 && $actor !== $target && $this->policy->interact( $actor, 'member', $target ) && $this->policy->interact( $target, 'member', $actor );
+	}
+	private function friendshipError(): \WP_Error {
+		return new \WP_Error( 'bpi_unavailable', __( 'This community interaction is unavailable.', 'buddypress-intelligence' ), array( 'status' => 403 ) );
+	}
 	private function comments( array $comments, int $depth = 0 ): array {
 		if ( $depth > 50 ) {
 			return array();
@@ -297,12 +424,9 @@ final class Integration {
 			}
 		}
 		if ( bp_is_active( 'friends' ) ) {
-			foreach ( array(
-				'friends_friendship_accepted' => 'friendship_created',
-				'friends_friendship_deleted'  => 'friendship_removed',
-			) as $hook => $type ) {
-				add_action( $hook, fn( int $id, int $actor, int $other ) => $this->safeEvent( $type, $actor, 'member', $other ), 20, 3 );
-			}
+			add_action( 'friends_friendship_accepted', fn( int $id, int $actor, int $other ) => $this->safeEvent( 'friendship_created', $actor, 'member', $other ), 20, 3 );
+			// The similarly named "deleted" hook fires before deletion and can contain a null ID.
+			add_action( 'friends_friendship_post_delete', fn( int $actor, int $other ) => $this->safeEvent( 'friendship_removed', $actor, 'member', $other ), 20, 2 );
 		}
 	}
 }

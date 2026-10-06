@@ -179,7 +179,7 @@ msgstr ""
 msgid "Community sections"
 msgstr ""
 
-#: src/Integration.php:64 src/UI.php:248
+#: src/Integration.php:67 src/UI.php:248
 msgid "Community tools"
 msgstr ""
 
@@ -863,11 +863,11 @@ msgstr ""
 msgid "This community feature is currently unavailable."
 msgstr ""
 
-#: src/Integration.php:53
+#: src/Integration.php:56 src/Integration.php:331 src/Integration.php:350 src/Integration.php:368
 msgid "This community interaction is unavailable."
 msgstr ""
 
-#: src/Integration.php:22 src/Integration.php:193
+#: src/Integration.php:22 src/Integration.php:196 src/Integration.php:268
 msgid "This community item is unavailable."
 msgstr ""
 
@@ -959,7 +959,7 @@ msgstr ""
 msgid "You do not have permission to manage this community feature."
 msgstr ""
 
-#: src/Integration.php:232
+#: src/Integration.php:235
 msgid "You have a community update."
 msgstr ""
 

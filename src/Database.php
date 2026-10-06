@@ -112,7 +112,36 @@ final class Database {
 		return (int) $result;
 	}
 	public function select( string $sql, array $args ): array {
-		return $this->db->get_results( $this->db->prepare( $sql, $args ), ARRAY_A ) ?: array();
+		$rows = $this->db->get_results( $args ? $this->db->prepare( $sql, $args ) : $sql, ARRAY_A );
+		if ( $this->db->last_error ) {
+			throw new \RuntimeException( 'Database read failed.' );
+		}
+		return $rows ?: array();
+	}
+	/** Retry one autocommit statement, never a handler or a multi-statement transaction. */
+	public function retryAutocommit( callable $operation ) {
+		if ( $this->depth ) {
+			throw new \LogicException( 'Autocommit retries cannot run within a transaction.' );
+		}
+		$suppressed = $this->db->suppress_errors( true );
+		try {
+			for ( $attempt = 0; $attempt < 3; ++$attempt ) {
+				try {
+					return $operation();
+				} catch ( \RuntimeException $e ) {
+					$connection = $this->db->__get( 'dbh' );
+					// wpdb exposes the connection but has no numeric SQL error-code accessor.
+					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_errno -- Inspect only the native code; all SQL uses wpdb.
+					$code = $connection instanceof \mysqli ? mysqli_errno( $connection ) : 0;
+					if ( ! in_array( $code, array( 1205, 1213 ), true ) || 2 === $attempt ) {
+						throw $e;
+					}
+					usleep( 10000 * ( $attempt + 1 ) );
+				}
+			}
+		} finally {
+			$this->db->suppress_errors( $suppressed );
+		}
 	}
 	public function transaction( callable $operation ) {
 		$depth = $this->depth++;

@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.1', '8.2', '8.3']
-        wordpress: ['6.8', '7.1']
+        wordpress: ['6.8', '7.1.2']
     services:
       mariadb:
         image: mariadb:10.4
@@ -83,3 +83,45 @@ jobs:
             .runtime/e2e-results.json
             .runtime/playwright-results
             dist
+  redis-and-concurrency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli, curl, mbstring, zip, intl
+          coverage: none
+      - name: Prepare official test sources
+        run: |
+          php tools/download-runtime.php
+          php tools/download-checks.php
+          php tools/download-extended-runtime.php
+      - name: Start isolated database and Redis
+        run: |
+          docker network create bpi-release-qa
+          docker run --detach --name bpi-qa-mariadb --network bpi-release-qa --env MYSQL_ROOT_PASSWORD=bpi_test_local --env MYSQL_DATABASE=bpi_tests mariadb@sha256:22edfe1c78349f8cae88bbb5c2873b7e6c515be767c91c691308ce57445806f3
+          docker run --detach --name bpi-qa-redis --network bpi-release-qa redis@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
+          for attempt in $(seq 1 30); do
+            if docker exec bpi-qa-mariadb mysqladmin ping -pbpi_test_local; then break; fi
+            sleep 2
+          done
+          docker exec bpi-qa-mariadb mysqladmin ping -pbpi_test_local
+      - name: Real persistent cache, competing workers and Multisite
+        run: |
+          docker run --rm --network bpi-release-qa --entrypoint php --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace" --workdir /workspace wordpress@sha256:e04cf657f24889e96b5544828cdd5a92a0b51819f3e1899183f9be6ea0485edf tools/container-suite.php 7.1.2 --redis
+          docker run --rm --network bpi-release-qa --entrypoint php --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace" --workdir /workspace wordpress@sha256:e04cf657f24889e96b5544828cdd5a92a0b51819f3e1899183f9be6ea0485edf tools/container-extended.php
+          docker run --rm --network bpi-release-qa --entrypoint php --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace" --workdir /workspace wordpress@sha256:e04cf657f24889e96b5544828cdd5a92a0b51819f3e1899183f9be6ea0485edf tools/container-network.php
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: redis-concurrency-multisite
+          path: |
+            .runtime/container-qa/php-8.3-wp-7.1.2/phpunit.xml
+            .runtime/container-qa/php-8.3-wp-7.1.2/extended-results.json
+            .runtime/container-network-qa/network-results.log
+      - name: Stop disposable services
+        if: always()
+        run: |
+          docker rm --force --volumes bpi-qa-mariadb bpi-qa-redis
+          docker network rm bpi-release-qa

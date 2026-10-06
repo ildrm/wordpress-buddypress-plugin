@@ -67,7 +67,25 @@ Network checks use `bpin_`. Component checks change only the disposable runtime'
 | Consent/lifecycle | Dual provider consent, consent-based event/aggregate behavior, query text omission, paginated erasure, persistent-cache cursor invalidation |
 | Abuse | Atomic member limits, explicit rule capacity, self-vote/credit prevention, bounded retries/recursion |
 
-Race-sensitive production writes use database constraints, row locks and lease comparisons. Tests exercise duplicate and replacement-lease behavior; they are not a claim of a full concurrent load/chaos test.
+Race-sensitive production writes use database constraints, row locks and lease comparisons. Separate processes now also compete through barriers: 12 acceptance requests, 12 votes, 12 automation deliveries, eight rule creators, eight workers draining 120 jobs, and 300 rate-limit requests. Results verify one acceptance/credit/event, one vote/run/notification, rule capacity, no duplicate healthy-worker executions, and the rate ceiling. These are focused integrity checks, not a general throughput or crash/chaos certification.
+
+Repeated worker races exposed a completion deadlock after a successful handler. The fix retries only the conditional state write, outside handler error handling. Real MySQL `SIGNAL` fault injection verifies codes 1213/1205, bounded exhaustion, permanent-error behavior, unchanged handler count and retained running leases. It also verifies transactional retry rejection and failed policy reads stopping serialization. These regressions run in every compatibility cell.
+
+## Executed container matrix and Redis verification
+
+Official WordPress PHP images provide PHP 8.1.34, 8.2.34 and 8.3.35. Unmodified WordPress sources are extracted into each container filesystem. Every PHP/WordPress combination owns a separate `bpit_c...` prefix in the disposable MariaDB database; it never shares the browser fixture. Redis 7.4.11 uses the official Redis Object Cache 2.7.0 drop-in with Predis. The PHP 8.3 / WordPress 7.1.2 cell runs the full suite with Redis enabled. Fresh PHP processes separately verify snapshot persistence, changed bilateral blocks and erasure invalidation. Multisite adds 15 real Redis/root/child checks under `bpin_` in the container database.
+
+Prepare `tools/download-extended-runtime.php`, `tools/download-runtime.php`, `tools/download-checks.php`, and `tools/prepare-container-sources.php` (the latter archives the original unmodified WordPress 7.1 core before upgrading that local source). Start disposable containers named `bpi-qa-mariadb` and `bpi-qa-redis` on a private network `bpi-release-qa`. The pinned image digests and exact service setup are in `.github/workflows/ci.yml`.
+
+Run matrix cells sequentially with this pattern, substituting PHP 8.1/8.2/8.3 and your absolute repository path:
+
+```powershell
+rtk proxy docker run --rm --network bpi-release-qa --entrypoint php --mount type=bind,source=D:/prj/wordpress-buddypress-plugin,target=/workspace --workdir /workspace wordpress:php8.3-apache tools/container-matrix.php
+rtk proxy docker run --rm --network bpi-release-qa --entrypoint php --mount type=bind,source=D:/prj/wordpress-buddypress-plugin,target=/workspace --workdir /workspace wordpress:php8.3-apache tools/container-extended.php
+rtk proxy docker run --rm --network bpi-release-qa --entrypoint php --mount type=bind,source=D:/prj/wordpress-buddypress-plugin,target=/workspace --workdir /workspace wordpress:php8.3-apache tools/container-network.php
+```
+
+Matrix JSON/JUnit/logs and extended results are stored in `.runtime/container-qa`; network evidence is `.runtime/container-network-qa/network-results.log`. PHPUnit fails on warnings, notices, deprecations, risky tests and skipped tests. Runners delete stale result files and require explicit completion evidence because WordPress can exit with code zero while displaying a database error page. An interrupted Docker run was recovered and rerun; interrupted cells were not counted as passes. Test mail is suppressed through both WordPress and BuddyPress mail adapters.
 
 ## Performance and package checks
 
@@ -85,6 +103,6 @@ Package verification hashes every included file and confirms the archive content
 
 ## Practical limits
 
-Actual local results are in [engineering-report.md](engineering-report.md). The CI matrix is configured for PHP 8.1/8.2/8.3 and WordPress 6.8/7.1 but has not run on a remote host in this session. PHPStan checks the PHP 8.1 language target. Additional Windows PHP downloads failed with connection resets. Local persistent-cache testing uses WordPress's external-cache code path with the in-process cache, not an actual Redis/Memcached deployment.
+Actual local results are in [engineering-report.md](engineering-report.md). PHP 8.1/8.2/8.3 compatibility and real Redis checks were executed locally in containers. CI includes the same minimum/current source matrix and a pinned Redis/concurrency/Multisite job, but remote GitHub Actions execution is not claimed. Additional Windows PHP binaries remain unavailable; Linux containers close the language-version gate, and Windows PHP 8.2.12 was verified separately. Composer is an optional development-tool path, not a runtime or release prerequisite; the executed tools are pinned official PHARs. Memcached and other cache products are outside this measured matrix.
 
 Axe checks the plugin's populated surfaces, and screenshots were inspected. This does not certify all surrounding themes, screen readers, translations, browsers, cache products, third-party endpoints, email infrastructure, external providers, or hosting environments. Deployment acceptance should run the supplied suite with the actual theme/plugin set, operational cron, caching rules, backups, and selected provider before enabling it for members.

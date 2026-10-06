@@ -10,3 +10,6 @@
 - Added optional public-text intelligence requests, bounded transport, DNS pinning and failure backoff.
 - Added BuddyPress hooks, REST v1, progressive enhancement, dynamic blocks, privacy export/erasure, RTL styles and translation catalog.
 - Added integration, security, browser, accessibility, compatibility, Multisite and performance tooling. Release verification scope is recorded in the engineering report.
+- Hardened native friendship REST/AJAX/screens and read privacy; recorded removal events only after confirmed deletion.
+- Retried queue completion deadlocks without replaying successful handlers; retained leases after exhausted retries and stopped serialization on failed database reads.
+- Verified real Redis persistence/erasure and Multisite isolation, competing acceptance/vote/automation/queue/rate operations, and the PHP 8.1/8.2/8.3 compatibility matrix through WordPress 7.1.2.

@@ -4,7 +4,7 @@ $network_install = in_array('--install', $argv ?? [], true);
 define('DB_NAME', 'bpi_tests');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'bpi_test_local');
-define('DB_HOST', '127.0.0.1:33307');
+define('DB_HOST', getenv('BPI_QA_DB_HOST') ?: '127.0.0.1:33307');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');
 define('WP_DEBUG', true);
@@ -17,7 +17,17 @@ define('AUTH_KEY', 'isolated-network-test-key');
 define('SECURE_AUTH_KEY', 'isolated-network-test-secure-key');
 define('LOGGED_IN_KEY', 'isolated-network-login-key');
 define('NONCE_KEY', 'isolated-network-nonce-key');
-define('ABSPATH', dirname(__DIR__) . '/.runtime/wordpress/');
+define('ABSPATH', (getenv('BPI_NETWORK_SOURCE') ?: dirname(__DIR__) . '/.runtime/wordpress') . '/');
+if (getenv('BPI_NETWORK_CONTENT')) {
+    $content=getenv('BPI_NETWORK_CONTENT');
+    if (!str_starts_with($content,dirname(__DIR__).'/.runtime/')) throw new RuntimeException('Network test content must stay within the project runtime.');
+    define('WP_CONTENT_DIR',$content);
+    define('WP_CONTENT_URL','http://127.0.0.1/wp-content');
+    define('WP_REDIS_HOST','bpi-qa-redis');
+    define('WP_REDIS_PORT',6379);
+    define('WP_REDIS_CLIENT','predis');
+    define('WP_REDIS_PREFIX','bpin_qa_');
+}
 $table_prefix = 'bpin_';
 $_SERVER['HTTP_HOST'] = '127.0.0.1';
 $_SERVER['REQUEST_URI'] = '/';

@@ -32,6 +32,7 @@ Uninstall preserves data by default. Permanent deletion requires the root admini
 - [Verification and performance procedures](docs/testing.md)
 - [Expert-role review and decisions](docs/role-review.md)
 - [Optimized implementation prompt](docs/optimized-prompt.md)
-- [Engineering report, exact results and remaining release gates](docs/engineering-report.md)
+- [Engineering report and exact release verification results](docs/engineering-report.md)
+- [Release acceptance and deployment procedure](docs/release-acceptance.md)
 
 Licensed under GPL-2.0-or-later. See [LICENSE](LICENSE).

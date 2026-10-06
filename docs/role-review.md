@@ -9,7 +9,7 @@ The original prompt assigns 32 expert responsibilities. They were used as review
 | Community Platform Strategist | Native identity/group/activity ownership; explicit trust workflows rather than opaque global scores |
 | Principal Software Architect | Composition root with injected services, one policy boundary, versioned provider contracts |
 | Senior WordPress Plugin Architect | Activation hooks, capabilities, REST, nonce fallback forms, privacy hooks, dynamic blocks |
-| Senior BuddyPress Extension Engineer | Installed upstream symbols verified, native query/comment/message adapters, root capabilities |
+| Senior BuddyPress Extension Engineer | Installed upstream symbols verified, native query/comment/message/friendship HTTP adapters, confirmed deletion events, root capabilities |
 | Senior PHP Engineer | PHP 8.1 language floor, typed classes, bounded exceptions, static analysis without a baseline |
 | Database Architect | 19 indexed InnoDB tables, unique invariants, prepared values, nested transactions and row locks |
 | Data Engineer | Sanitized idempotent events, durable jobs, bounded retention and consent-filtered aggregates |
@@ -28,10 +28,10 @@ The original prompt assigns 32 expert responsibilities. They were used as review
 | Design-System Engineer | Logical CSS tokens and consistent controls/cards/notices, responsive and dark/reduced-motion styles |
 | WordPress Performance Engineer | Bounded candidates, bulk hydration, verified indexed friendship adapter, query measurements and EXPLAIN evidence |
 | Product Analytics Engineer | Explicit DAU/WAU/MAU, cohort and health definitions, small-population suppression, descriptive experiment results |
-| QA Architect | Acceptance traceability and isolated real WordPress/BuddyPress databases, component and network tests |
+| QA Architect | Acceptance traceability and isolated real WordPress/BuddyPress databases, component/network tests, real Redis and competing process checks |
 | Automated Testing Engineer | PHPUnit, Node tests, Playwright, axe, standards, static and syntax checks with regression repairs |
 | CI/CD Engineer | PHP/WordPress matrix, isolated MariaDB, reproducible allowlisted ZIP and artifact reports; no unsolicited deployment |
-| WordPress Compatibility Engineer | WordPress 6.8 and 7.1 local runs, BuddyPress 14.5.2, real Multisite and disabled components |
+| WordPress Compatibility Engineer | Executed PHP 8.1/8.2/8.3 and WordPress 6.8/7.1/7.1.2 matrix, BuddyPress 14.5.2, real Multisite and disabled components |
 | Internationalization/RTL Engineer | One text domain, POT extraction, wp.i18n, logical CSS, 390px RTL browser verification |
 | Technical Writer | Administrator/developer/API/database/privacy/testing manuals and exact release evidence |
 | WordPress.org Plugin Review Specialist | GPL-compatible source, dependency declarations, no native patches, opt-in external service, complete package. Directory review remains external |
@@ -41,7 +41,7 @@ The original prompt assigns 32 expert responsibilities. They were used as review
 
 Security and privacy precede ranking richness: provider IDs are rehydrated and checked rather than trusting suggested content. Privacy precedes pagination fullness: revoked objects are removed even if a page has fewer items. Authorization precedes administrative convenience: child-site roles do not imply community-root powers. Data integrity precedes engagement rewards: self-credit and duplicate acceptance are rejected, pair/day limits are locked, reversals append negative ledger records. Functional correctness precedes apparent recall: a saturated answer scan omits uncertain unanswered results.
 
-Compatibility precedes invasive enforcement: upstream source is untouched; unsupported friendship write interception is documented rather than fabricating a hook. Accessibility precedes a client-only application: forms work without JavaScript and browser checks exercise native controls. Performance precedes unlimited discovery: candidate windows and background batches are bounded, with explicit sample-based analytics/topic descriptions. Maintainability precedes a second frontend stack: WordPress's own editor packages and small progressive enhancement share the same REST/domain boundary.
+Compatibility precedes invasive enforcement: upstream source is untouched; verified native HTTP friendship adapters enforce policy while direct application writers use the published policy contract. Accessibility precedes a client-only application: forms work without JavaScript and browser checks exercise native controls. Performance precedes unlimited discovery: candidate windows and background batches are bounded, with explicit sample-based analytics/topic descriptions. Maintainability precedes a second frontend stack: WordPress's own editor packages and small progressive enhancement share the same REST/domain boundary.
 
 ## Review passes
 

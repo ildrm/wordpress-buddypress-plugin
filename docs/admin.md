@@ -24,7 +24,7 @@ Create a small set of useful topics in **Topics**. Use **Edit topic** to rename,
 
 Review consolidated cases with reports, evidence, subject history and an audit trail. Assign an authorized moderator, set severity/priority from 1–5 and record internal notes. Workflow transitions are validated. Supported actions are note, warning, hide/restore, restrict/unrestrict, dismiss and transition. Restriction duration is 1–90 days. Native spam status and bans are never cleared by the plugin's restore action.
 
-A warning records an action and displays a generic member notice. It does not publish the internal note. Hiding is a reversible plugin visibility marker; it does not delete canonical BuddyPress content. A restricted member cannot use plugin interactions or create native activity/comments; optional native messaging is checked before insertion. Existing messages are preserved. Other plugins' custom interaction endpoints remain responsible for calling the published policy.
+A warning records an action and displays a generic member notice. It does not publish the internal note. Hiding is a reversible plugin visibility marker; it does not delete canonical BuddyPress content. A restricted member cannot use plugin interactions or create native activity/comments; optional native messaging is checked before insertion. Native friendship creation and acceptance honor both participants' blocks, visibility and restrictions across REST, both BuddyPress template AJAX handlers, and native screens. Cancellation remains available. Existing messages and friendships are preserved. Other plugins' custom interaction endpoints and direct PHP writers remain responsible for calling the published policy.
 
 ## Automations
 

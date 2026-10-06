@@ -31,3 +31,14 @@ function bp_get_version(): string { return ''; }
 function bp_is_current_component(string $component): bool { return false; }
 function bp_current_user_can(string $capability,array $args=[]): bool { return false; }
 function bp_user_can(int $user_id,string $capability,array $args=[]): bool { return false; }
+function friends_check_friendship_status(int $user_id,int $possible_friend_id): string { return 'not_friends'; }
+function bp_is_friends_component(): bool { return false; }
+function bp_is_current_action(string $action=''): bool { return false; }
+function bp_is_action_variable(string $action_variable='', $position=false): bool { return false; }
+function bp_action_variable(int $position=0) { return false; }
+class BP_Friends_Friendship {
+    public $id;
+    public $initiator_user_id;
+    public $friend_user_id;
+    public function __construct($id=null,bool $is_request=false,bool $populate_friend_details=true) {}
+}
